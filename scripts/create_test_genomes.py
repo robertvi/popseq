@@ -94,7 +94,7 @@ def generate_parents(seq,snp_list):
     p2[0] = p2[0].decode('utf-8')
     p2[1] = p2[1].decode('utf-8')
 
-    return individual("p1",p1[0],p1[1]),individual("p2",p2[0],p2[1])
+    return individual("parent1",p1[0],p1[1]),individual("parent2",p2[0],p2[1])
 
 def generate_test_parents(size):
     'generate parents of polyA,T,C,G for testing'

@@ -12,25 +12,30 @@ def random_seq(size):
     'return a random sequence of the letters ATCG'
     return ''.join([random.choice("ATCG") for x in range(size)])
 
-def apply_snps(seq,nsnps):
-    'return the input string with nsnps mutated to a different base'
+def generate_snp_list(genome_size,snps):
+    'return a list of positions and the two position variants at that location'
 
-    #determine positions to apply SNPs
-    posn = [x for x in range(len(seq))]
-    #random.shuffle(posn)
-    posn = posn[:nsnps]
+    #determine positions of SNPs, ensure none coincide
+    posn = [x for x in range(genome_size)]
+    random.shuffle(posn)
+    posn = posn[:snps]
 
-    mutant = bytearray(seq,encoding='utf-8')
-
+    snp_list = []
     for i in posn:
-        #find current base
-        wt = 'ATCG'.index(chr(mutant[i]))
+        #pick variantA at random (overwrites any exising base)
+        varA = 'ATCG'[ random.choice([0,1,2,3]) ]
 
-        #adjust current base by 1,2 or 3 places in the list ATCG with wrap
-        adj = random.choice([1,2,3])
+        #pick variantB being certain it doesn't match variantA
+        indA = 'ATCG'.index(varA)
+        adjB = random.choice([1,2,3])
+        varB = 'ATCG'[(indA+adjB)%4]
 
-        mutant[i] = ord('ATCG'[(wt+adj)%4])
-    return mutant.decode('utf-8')
+        #store position and the two variants
+        snp_list.append([i,varA,varB])
+
+def generate_parents(seq,snp_list):
+    'generate two parental sequences from a base sequence and snplist'
+    return individual("p1",seq,seq),individual("p2",seq,seq)
 
 class individual:
     def __init__(self,name,seq1,seq2):
@@ -56,7 +61,8 @@ if __name__ == "__main__":
 
     #create random chromosome of required size
     base_seq = random_seq(args.genome_size)
-    snps_seq = apply_snps(base_seq,args.snps)
+    snp_list = generate_snp_list(args.genome_size,args.snps)
 
-    parent1 = individual("p1",base_seq,snps_seq)
+    parent1,parent2 = generate_parents(base_seq,snp_list)
     print(parent1)
+    print(parent2)

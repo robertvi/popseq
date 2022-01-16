@@ -28,6 +28,16 @@ class individual:
         f.write(self.get_chrm(0).encode('utf-8'))
         f.write('\n>chrm2\n'.encode('utf-8'))
         f.write(self.get_chrm(1).encode('utf-8'))
+        f.write('\n'.encode('utf-8'))
+
+    def save_flat(self,f):
+        'save the sequences of both chromosomes in fasta format'
+        f.write('chrm1 '.encode('utf-8'))
+        f.write(self.get_chrm(0).encode('utf-8'))
+        f.write('\n'.encode('utf-8'))
+        f.write('chrm2 '.encode('utf-8'))
+        f.write(self.get_chrm(1).encode('utf-8'))
+        f.write('\n'.encode('utf-8'))
 
 def random_seq(size):
     'return a random sequence of the letters ATCG'
@@ -152,6 +162,6 @@ if __name__ == "__main__":
 
     #save parents and progeny to files
     for x in [parent1,parent2] + progeny_list:
-        f = open(x.name+'.fasta','wb')
-        x.save_fasta(f)
+        f = open(x.name+'.flata','wb')
+        x.save_flat(f)
         f.close()

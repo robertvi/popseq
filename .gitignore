@@ -2,3 +2,5 @@
 /build
 *.fasta
 *.fastq
+*.flata
+*.flatq

@@ -6,4 +6,4 @@
 
 set -eu
 
-../scripts/create_test_genomes.py --progeny x10 --genome-size 10000
+../scripts/create_test_genomes.py --progeny 10 --genome-size 10000 --snps 10

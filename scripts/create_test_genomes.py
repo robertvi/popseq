@@ -10,14 +10,24 @@ import random
 
 class individual:
     def __init__(self,name,seq1,seq2):
+        'initialise name and both chromosomal sequences'
         self.name = name
         self.chrm = [seq1,seq2]
 
     def __str__(self):
+        'print name and the first 100 bases of each chromosome'
         return "Name: " + self.name + "\n" + self.chrm[0][:100] + "...\n" + self.chrm[1][:100] + '...'
 
     def get_chrm(self,i):
+        'return the sequence of the requested chromosome'
         return self.chrm[i]
+
+    def save_fasta(self,f):
+        'save the sequences of both chromosomes in fasta format'
+        f.write('>chrm1\n'.encode('utf-8'))
+        f.write(self.get_chrm(0).encode('utf-8'))
+        f.write('\n>chrm2\n'.encode('utf-8'))
+        f.write(self.get_chrm(1).encode('utf-8'))
 
 def random_seq(size):
     'return a random sequence of the letters ATCG'
@@ -134,12 +144,14 @@ if __name__ == "__main__":
     #generate parents' genome sequence
     parent1,parent2 = generate_parents(base_seq,snp_list)
 
-    print(parent1)
-    print(parent2)
-
     #generate progeny genome sequences
     progeny_list = []
 
     for i in range(args.progeny):
         progeny_list.append(generate_progeny("progeny%03d"%i,parent1,parent2,args.crossovers))
-        print(progeny_list[-1])
+
+    #save parents and progeny to files
+    for x in [parent1,parent2] + progeny_list:
+        f = open(x.name+'.fasta','wb')
+        x.save_fasta(f)
+        f.close()

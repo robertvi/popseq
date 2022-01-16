@@ -85,18 +85,22 @@ def crossover(seq1,seq2,crossovers):
     'return a single sequence incorporating the requests number of crossovers'
 
     #pick positions of the crossovers
-    seqA = seq1[:]
-    seqB = seq2[:]
     size = len(seq1)
     posn = [x for x in range(1,size)] #[1,...size-1]
     random.shuffle(posn)
     posn = posn[:crossovers] #crossover before the offset position(s) given
 
+    #begin as copy of both of the parent's chromosomes
+    seqA = seq1[:]
+    seqB = seq2[:]
+
+    #perform each crossover
     for i in posn:
         temp = seqA[:]
         seqA = seqA[:i] + seqB[i:]
         seqB = seqB[:i] + temp[i:]
 
+    #return one of the two chromosomes at random
     return random.choice([seqA,seqB])
 
 def generate_progeny(name,p1,p2,crossovers):

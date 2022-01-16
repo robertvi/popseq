@@ -5,7 +5,7 @@
 # in the order they need to be executed
 # note: you may not want to simply run this script
 # but rather execute each step one at a time
-# using the appropriate HPC Job Scheduler commands
+# using any appropriate HPC Job Scheduler commands etc
 #
 # copy this script into a suitable folder and modify the key path variables below
 # set them up to point to your raw input, working data and script folders
@@ -14,20 +14,21 @@
 set -eu
 
 # ==============================================================
-# modify these paths to point to your input data, working data
-# and installation folders
+# modify these paths to point to your:
+#  - raw input data folder (DATADIR)
+#  - working/scratch data folder (WORKDIR)
+#  - popseq installation folder (INSTALLDIR)
+#  - dsk installation folder (DSKDIR)
 # ==============================================================
 
-# export DATADIR=/data/seq_data/external/20180305_novogene_octoseq_popseq
-# export OCTODIR=/home/groups/harrisonlab/project_files/fragaria_x_ananassa/octoseq
-# export WORKDIR=/data/scratch/vicker/octoseq_project/popseq
-# export PATH=/home/vicker/git_repos/popseq:${PATH}
-# export PATH=/home/vicker/programs/dsk-2.1.0-Linux/bin:${PATH}
+export DATADIR=/home/vicker/bioinformatics/raw_data
+export WORKDIR=/home/vicker/bioinformatics/working_data
+export INSTALLDIR=/home/vicker/bioinformatics/software/popseq
+export DSKDIR=/home/vicker/bioinformatics/software/dsk
 
-export DATADIR=/data/seq_data/external/20180305_novogene_octoseq_popseq
-export OCTODIR=/home/groups/harrisonlab/project_files/fragaria_x_ananassa/octoseq
-export WORKDIR=/data/scratch/vicker/octoseq_project/popseq
-export PATH=/home/vicker/git_repos/popseq:${PATH}
-export PATH=/home/vicker/programs/dsk-2.1.0-Linux/bin:${PATH}
+export PATH=${INSTALLDIR}/scripts:${PATH}
+export PATH=${INSTALLDIR}/build/bin:${PATH}
+export PATH=${DSKDIR}/build/bin:${PATH}
 
 cd ${WORKDIR}
+pwd
